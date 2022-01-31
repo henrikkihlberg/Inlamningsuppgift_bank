@@ -10,13 +10,10 @@ class bank:
     
     bank_dictionary = {}
 
-    customer_count = sum(1 for line in open("database.txt"))
-
     def _load(self):
         database_file = open("database.txt").readlines()
         for rows in database_file:
             a = rows.replace("#", ":").replace("\n", " ").split(":")
-            #self.customer_count += 1
             cust =  cus(a[0], a[1], a[2])
             if len(a) > 3:
                 acco = acc(a[3], a[4], a[5])
@@ -36,7 +33,7 @@ class bank:
             if len(v) > 1:
                 text_file.write(":")
                 for x in range(1, len(v)):
-                    text_file.write(f"{str(v[x].account_number)}:{str(v[x].account_type)}.{str(v[x].account_balance)}")
+                    text_file.write(f"{str(v[x].account_number)}:{str(v[x].account_type)}:{str(v[x].account_balance)}")
                     if x < len(v)-1:
                         text_file.write("#")
             text_file.write("\n")
@@ -54,29 +51,30 @@ class bank:
     def get_customers_accounts_dictionary(self):
         return self.bank_dictionary
 
-    def start_menu(self):
+    def main_menu(self):
         a = -1
         print(f"Welcome to {self.name}.\n")
         while a != 0:
             print("Main menu")
             print(" ")
-            print("1. Existing customer")
+            print("1. Registered customer")
             print("2. New customer")
-            print("3. Print list of all customers")
-            print("4. Print list of all customers and their accounts")
-            print("9. Remove a customer by personal number")
+            print("3. Show a list of all customers")
+            print("4. Show a list of all customers and their accounts")
+            print("5. Change the name of a customer")
+            print("9. Remove a customer")
             print("0. Exit")
             a = int(input("Choice: "))
             if a == 1:
                 flag = True
                 while flag:
-                    pnr = input("enter personal number to log in: ")
+                    pnr = input("Please enter your personal number to log in (8 digits): ")
                     for k, v in self.bank_dictionary.items():
                         if int(pnr) == v[0].pnr:
                             print(f"Welcome, {v[0].name}.")
-                            self.bank_menu(int(pnr))
+                            self.customer_menu(int(pnr))
                             return
-                    print("No such personal number exists in database")
+                    print("No such personal number exists in the database.")
                     a = input("Try again? Type yes or no. ")
                     if a =="Yes" or a == "yes":
                         continue
@@ -84,34 +82,38 @@ class bank:
                         flag = False
             elif a == 2:
                 name = input("Enter your full name: ")
-                prn = input("Enter your personal number: ")
+                pnr = input("Enter your personal number (8 digits): ")
                 while self.add_customer(name, int(pnr)) == False:
                     a = input("Try again? Type yes or no. ")
                     if a == "Yes" or a == "yes":
                         name = input("Enter your full name: ")
-                        pnr = input("Your personal number: ")
+                        pnr = input("Your personal number (8 digits): ")
                     else:
-                        self.start_menu()
+                        self.main_menu()
                     
-                    a = input("Would you like to open a new account? Type yes or no. ")
-                    if a == "Yes" or a == "yes":
-                        self.add_account(int(pnr))
-                        self.bank_menu(int(pnr))
-                    else:
-                        print("Please return when you want to open an account.\n \n")
+                a = input("Would you like to open a new account? Type yes or no. ")
+                if a == "Yes" or a == "yes":
+                    self.add_account(int(pnr))
+                    self.customer_menu(int(pnr))
+                else:
+                    print("Please return when you want to open an account.\n \n")
+                    a = -1
             elif a == 3:
                 self.print_all_customers()
             elif a == 4:
                 print(self.print_list_all())
+            elif a == 5:
+                pnr = int(input("Enter the personal number of the customer to change: "))
+                self.change_customer_name(pnr)
             elif a == 9:
-                pnr = int(input("Enter personal number of customer to remove: "))
+                pnr = int(input("Enter the personal number of the customer to remove: "))
                 self.remove_customer(pnr)
     
-    def bank_menu(self, pnr):
+    def customer_menu(self, pnr):
         for a, b in bank1.bank_dictionary.items():
-            if b[0].prn == pnr:
+            if b[0].pnr == pnr:
                 if len(b) == 1:
-                    c = input("You haven't opened any account yet, would you like to open one? Type yes or no: ")
+                    c = input("It appears that you have no accounts registered. Would you like to open one? Type yes or no: ")
                     if c == "Yes" or c == "yes":
                         self.add_account(pnr)
         
@@ -136,7 +138,7 @@ class bank:
                         print("Goodbye!")
                         return False
                     elif a == str(-1):
-                        self.bank_menu(pnr)
+                        self.customer_menu(pnr)
                         return False
                     elif a == str(9):
                         self.add_account(pnr)
@@ -144,7 +146,7 @@ class bank:
                         print("\nAccounts: ")
                         for acc_no in range(1, len(v)):
                             print(f"{acc_no}. {v[acc_no].account_type} - Balance: {v[acc_no].account_balance}")
-                        b = input(f"Which account to clsoe? (0 to exit): ")
+                        b = input(f"Select which account to close (Type 0 to exit): ")
 
                         for z in temp_list:
                             if b == z:
@@ -189,21 +191,21 @@ class bank:
             if int(v[0].pnr) == pnr:
                 flag = True
                 if len(v) >= 4:
-                    print(f"You already have 3 accounts which is {self.name}'s current maximum per customer.")
+                    print(f"You already have 3 accounts. {self.name} does not allow more than 3 accounts per customer.")
                     print("Close an acount if you want to create a new one.")
                 else:
                     set_of_accNum = set()
                     for a, b in self.bank_dictionary.items():
-                        for i in range(1 ,len(b)):
+                        for i in range(1, len(b)):
                             set_of_accNum.add(b[i].account_number)
-                        new_acc_num = 1000
-                        while new_acc_num in set_of_accNum:
-                            new_acc_num += 1
-                        print(f"\nCongratulations on opening your new debit account! It has account number {new_acc_num}.")
-                        first_depo = input("How much would you like to deposit?: ")
-                        v.append(acc(new_acc_num, "debit account", first_depo))
+                    new_acc_num = 1000
+                    while new_acc_num in set_of_accNum:
+                        new_acc_num += 1
+                    print(f"\nCongratulations on opening your new debit account! It has account number {new_acc_num}.")
+                    first_depo = input("How much would you like to deposit?: ")
+                    v.append(acc(new_acc_num, "debit account", first_depo))
         if flag == False:
-            print(f"Customer with personal number {pnr} doesn't exist in the database.")
+            print(f"There is no customer with personal number {pnr} in the database.")
 
     def add_customer(self, name, pnr):
         for k, v in self.bank_dictionary.items():
@@ -244,7 +246,7 @@ class bank:
 
     def change_customer_name(self, pnr):
         for k, v in self.bank_dictionary.items():
-            if int(v[0].prn) == pnr:
+            if int(v[0].pnr) == pnr:
                 print(f"Current name is {v[0].name}")
                 new_name = input("What would you like to change it to?: ")
                 v[0].name = new_name
@@ -268,6 +270,6 @@ class bank:
             print(f"%-22s %-28s %s" % (id, name, pnr))
 
             
-bank1 = bank("Bonk")
-bank1.start_menu()
+bank1 = bank("Riksbonken")
+bank1.main_menu()
 bank1.update_db()

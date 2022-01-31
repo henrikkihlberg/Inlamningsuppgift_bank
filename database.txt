@@ -1,2 +1,7 @@
-111111:Bert Ljung:19900929:1001:debit account:5000.0#1002:debit account:2000.0
+111111:Bert Kingen Ljung:19900929:1001:debit account:5000.0#1002:debit account:1000.0
 111112:Linnea:19860107:1003:debit account:1000.0
+111113:Henrik Kihlberg:19900928:1000:debit account:10000.0
+111114:Bruce Wayne:19780913:1004:debit account:1337.0#1005:debit account:35623574.0#1006:debit account:654321.0
+111115:Astrid Lindgren:13380505:1007:debit account:9999.0#1008:debit account:5365426.0
+111116:Herman Melville:18190801:1009:debit account:4000.0
+111117:Moby-Dick:12341212:1010:debit account:1.0

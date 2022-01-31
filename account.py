@@ -15,7 +15,6 @@ class account:
             print("2. Deposit")
             print("3. Show account information")
             print("4. Change account")
-            #print("5. Show transaction history")
             print("0. Exit")
             a = int(input("Choice: "))
 
