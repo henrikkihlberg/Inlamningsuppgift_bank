@@ -48,7 +48,7 @@ class bank:
                     return
         print(f"Error: Account {account_number} does not exist.")
     
-    def get_customers_accounts_dictionary(self):
+    def get_bank_dictionary(self):
         return self.bank_dictionary
 
     def main_menu(self):
@@ -64,7 +64,7 @@ class bank:
             print("5. Change the name of a customer")
             print("9. Remove a customer")
             print("0. Exit")
-            a = int(input("Choice: "))
+            a = int(input("Select a function: "))
             if a == 1:
                 flag = True
                 while flag:
@@ -159,7 +159,7 @@ class bank:
                                 break
     
     def print_list_all(self):
-        for kv, v in self.get_customers_accounts_dictionary().items():
+        for kv, v in self.get_bank_dictionary().items():
             print(f"\nCustomer: {v[0].name}")
             print(f" ")
             for i in range(1, len(v)):

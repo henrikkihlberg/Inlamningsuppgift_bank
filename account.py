@@ -27,8 +27,6 @@ class account:
                 self.print_account_info()
             elif a == 4:
                 break
-            elif a ==5:
-                self.transaction_history()
 
     def change_account(self):
         print(f'1. {"account x"}')
