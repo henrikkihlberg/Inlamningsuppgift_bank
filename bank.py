@@ -62,6 +62,8 @@ class bank:
             print("3. Show a list of all customers")
             print("4. Show a list of all customers and their accounts")
             print("5. Change the name of a customer")
+            print("6. Show customer")
+            print("7. Show account")
             print("9. Remove a customer")
             print("0. Exit")
             a = int(input("Select a function: "))
@@ -103,8 +105,14 @@ class bank:
             elif a == 4:
                 print(self.print_list_all())
             elif a == 5:
-                pnr = int(input("Enter the personal number of the customer to change: "))
+                pnr = int(input("Enter the personal number of the customer whose name you wish to change: "))
                 self.change_customer_name(pnr)
+            elif a == 6:
+                pnr = int(input("Enter the personal number of the customer you want to show: "))
+                self.get_customer(pnr)
+            elif a == 7:
+                account_id = int(input("Enter the ID of the account you wish to show: "))
+                self.get_account(account_id)
             elif a == 9:
                 pnr = int(input("Enter the personal number of the customer to remove: "))
                 self.remove_customer(pnr)

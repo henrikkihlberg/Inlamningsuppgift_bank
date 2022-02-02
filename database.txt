@@ -5,3 +5,5 @@
 111115:Astrid Lindgren:13380505:1007:debit account:9999.0#1008:debit account:5365426.0
 111116:Herman Melville:18190801:1009:debit account:4000.0
 111117:Moby-Dick:12341212:1010:debit account:1.0
+111118:James Hetfield:13371337:1011:debit account:1000.0
+111119:Robin Hood:44444444:1012:debit account:88888888.0
